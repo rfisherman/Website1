@@ -1,0 +1,90 @@
+body {
+  font-family: Helvetica, sans-serif; /* Fallback font */
+  margin: 0;
+  background-color: #fff; /* Stark white */
+  color: #000;
+  line-height: 1.4; /* Improves readability */
+}
+
+#portfolio-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+  justify-content: center; /* Centers items horizontally */
+  padding: 20px;
+}
+
+.portfolio-item {
+  display: flex;
+  width: 80%; /* Adjust as needed */
+  margin-bottom: 40px;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.portfolio-item img, .portfolio-item video {
+  max-width: 50%;
+  height: auto;
+  display: block; /* Prevents extra space below image */
+  cursor: pointer; /* Indicate it's clickable */
+}
+
+.text-content {
+  padding-left: 20px;
+  width: 50%;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+.description {
+  font-size: 1em;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.date, .material {
+  font-size: 0.8em;
+  font-weight: normal;
+}
+
+/* Media query for single column layout on smaller screens */
+@media (max-width: 768px) {
+  .portfolio-item {
+      flex-direction: column; /* Stack items vertically */
+      align-items: center;
+      text-align: center;
+  }
+
+  .portfolio-item img, .portfolio-item video {
+      max-width: 100%;
+      margin-bottom: 20px;
+  }
+  .text-content{
+      width: 100%;
+      padding: 0;
+  }
+}
+
+/* Basic Lightbox Styling */
+#lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#lightbox img, #lightbox video {
+  max-width: 90%;
+  max-height: 90%;
+}
+#lightbox.active {
+  display: flex;
+}
