@@ -1,0 +1,52 @@
+const sheetId = '11yIlNaQbP2yNJFRSeagml4MKrkVXE48tWdR8JG_OQqU'; // Replace with your Sheet ID
+const apiKey = 'AIzaSyDN_H1Vq7diU5lPcVJTHS5B2K3dJuZacrY'; // Replace with your API key
+const portfolioContainer = document.getElementById('portfolio-container');
+const lightbox = document.createElement('div');
+lightbox.id = 'lightbox';
+document.body.appendChild(lightbox);
+
+fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1?key=${apiKey}`) // Adjust "Sheet1" if your sheet has a different name
+    .then(response => response.json())
+    .then(data => {
+        const rows = data.values.slice(1); // Skip the header row
+        rows.forEach(row => {
+            const [imageUrl, title, date, material, description] = row;
+
+            const portfolioItem = document.createElement('div');
+            portfolioItem.className = 'portfolio-item';
+
+            const mediaElement = imageUrl.includes('.mp4') ? document.createElement('video') : document.createElement('img');
+            mediaElement.src = imageUrl;
+            if(mediaElement.tagName === 'VIDEO'){
+                mediaElement.controls = true;
+            }
+            mediaElement.addEventListener('click', () => {
+                lightbox.innerHTML = '';
+                const lightboxMedia = imageUrl.includes('.mp4') ? document.createElement('video') : document.createElement('img');
+                lightboxMedia.src = imageUrl;
+                if(lightboxMedia.tagName === 'VIDEO'){
+                    lightboxMedia.controls = true;
+                }
+                lightbox.appendChild(lightboxMedia);
+                lightbox.classList.add('active');
+            });
+            lightbox.addEventListener('click', (event) => {
+                if(event.target === lightbox){
+                    lightbox.classList.remove('active');
+                }
+            })
+
+            const textContent = document.createElement('div');
+            textContent.className = 'text-content';
+            textContent.innerHTML = `
+                <div class="title">${title}</div>
+                <div class="date">${date}</div>
+                <div class="material">${material}</div>
+                <div class="description">${description}</div>
+            `;
+
+            portfolioItem.appendChild(mediaElement);
+            portfolioItem.appendChild(textContent);
+            portfolioContainer.appendChild(portfolioItem);
+        });
+    });
